@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анимация машинки на CSS</title>
+  <style>
+    /* Обнуление отступов и базовая настройка фона */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #bae1ff, #ffffff);
+      height: 100vh;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    /* Контейнер для пейзажа (дорога и солнце) */
+    .scenery {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Солнце */
+    .sun {
+      position: absolute;
+      top: 40px;
+      right: 80px;
+      width: 80px;
+      height: 80px;
+      background: #ffdf00;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #ffdf00;
+    }
+
+    /* Дорога */
+    .road {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 120px;
+      background: #34495e;
+      border-top: 5px solid #2c3e50;
+    }
+
+    /* Разметка на дороге */
+    .road::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: 4px;
+      border-top: 4px dashed #ffffff;
+      opacity: 0.6;
+    }
+
+    /* --- МАШИНКА (Ширина ровно 200px) --- */
+    .car {
+      position: absolute;
+      bottom: 95px; /* Ставим машину на дорогу */
+      width: 200px;
+      height: 45px;
+      background: #e74c3c; /* Красный кузов */
+      border-radius: 10px 45px 5px 5px;
+      
+      /* Анимация: название, длительность, финальное состояние, плавность */
+      animation: driveAway 4s forwards cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Кабина машинки и стёкла */
+    .car::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      left: 40px;
+      width: 105px;
+      height: 30px;
+      background: #2c3e50; /* Цвет окон */
+      border: 5px solid #e74c3c; /* Рама в цвет кузова */
+      border-bottom: none;
+      border-radius: 25px 35px 0 0;
+      box-sizing: border-box;
+    }
+
+    /* Колёса (Реализованы через один псевдоэлемент и тень) */
+    .car::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 30px;
+      width: 14px;
+      height: 14px;
+      background: #bdc3c7; /* Серебряные диски первого колеса */
+      border-radius: 50%;
+      
+      /* box-shadow создает покрышки и дублирует второе колесо целиком */
+      box-shadow: 
+        0 0 0 8px #222222,         /* Покрышка 1-го колеса */
+        115px 0 0 0 #bdc3c7,       /* Диск 2-го колеса */
+        115px 0 0 8px #222222;     /* Покрышка 2-го колеса */
+    }
+
+    /* --- АНИМАЦИЯ ДВИЖЕНИЯ --- */
+    @keyframes driveAway {
+      0% {
+        /* Машинка полностью скрыта за левым краем экрана */
+        left: -200px;
+      }
+      100% {
+        /* Остановка ровно за 50px до правого края экрана */
+        /* Формула: 100% ширины экрана - 200px (сама машина) - 50px (отступ) */
+        left: calc(100% - 250px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Всего 4 HTML-элемента для всей композиции -->
+  <div class="scenery">
+    <div class="sun"></div>
+    <div class="road"></div>
+    <div class="car"></div>
+  </div>
+
+</body>
+</html>
